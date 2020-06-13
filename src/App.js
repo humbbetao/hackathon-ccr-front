@@ -7,7 +7,7 @@ import GlobalStyle, {
   themeStyled,
   themeMaterialUi,
 } from "./components/GlobalStyle";
-
+import "./components/ServiceWorkerWrapper";
 import Loading from "./components/Loading";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
