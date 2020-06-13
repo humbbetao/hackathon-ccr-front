@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, lazy } from "react";
 
-function App() {
+import { ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider as ThemeStyled } from "styled-components";
+import GlobalStyle, {
+  themeStyled,
+  themeMaterialUi,
+} from "./components/GlobalStyle";
+
+import Loading from "./components/Loading";
+const Home = lazy(() => import("./pages/Home"));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <ErrorBoundary>
+    <React.Fragment>
+      <Suspense fallback={<Loading />}>
+        <ThemeProvider theme={themeMaterialUi}>
+          <ThemeStyled theme={themeStyled}>
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
+            <GlobalStyle />
+            <Home></Home>
+            {/* <Router>
+                  <Switch>
+                    <Route path="/register">
+                      <Register />
+                    </Route>
+                    <Route path="/dash">
+                      <DashBoard />
+                    </Route>
+                    <Route path="/">
+                      <Login />
+                    </Route>
+                    <Route path="*">
+                      <NotFound />
+                    </Route>
+                  </Switch>
+                </Router> */}
+            {/* </MuiPickersUtilsProvider> */}
+          </ThemeStyled>
+        </ThemeProvider>
+      </Suspense>
+    </React.Fragment>
   );
 }
-
-export default App;
