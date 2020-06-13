@@ -8,6 +8,8 @@ import GlobalStyle, {
   themeMaterialUi,
 } from "./components/GlobalStyle";
 import "./components/ServiceWorkerWrapper";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from "@date-io/date-fns";
 import Loading from "./components/Loading";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -17,24 +19,26 @@ export default function App() {
   return (
     <React.Fragment>
       <Suspense fallback={<Loading />}>
-        <ThemeProvider theme={themeMaterialUi}>
-          <ThemeStyled theme={themeStyled}>
-            <GlobalStyle />
-            <Router>
-              <Switch>
-                <Route path="/register">
-                  <Register />
-                </Route>
-                <Route path="/dash">
-                  <Home />
-                </Route>
-                <Route path="/">
-                  <Login />
-                </Route>
-              </Switch>
-            </Router>
-          </ThemeStyled>
-        </ThemeProvider>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <ThemeProvider theme={themeMaterialUi}>
+            <ThemeStyled theme={themeStyled}>
+              <GlobalStyle />
+              <Router>
+                <Switch>
+                  <Route path="/register">
+                    <Register />
+                  </Route>
+                  <Route path="/dash">
+                    <Home />
+                  </Route>
+                  <Route path="/">
+                    <Login />
+                  </Route>
+                </Switch>
+              </Router>
+            </ThemeStyled>
+          </ThemeProvider>
+        </MuiPickersUtilsProvider>
       </Suspense>
     </React.Fragment>
   );

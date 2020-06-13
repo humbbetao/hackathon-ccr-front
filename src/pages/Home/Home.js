@@ -1,5 +1,4 @@
-import React from "react";
-import Chart from "react-apexcharts";
+import React, { useCallback, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,8 +8,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Add from "@material-ui/icons/Add";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
-
+import Card from "../../components/Card";
+import Health from "../../assets/health.jpg";
+import Info from "../../assets/Info.jpg";
+import LifeStyle from "../../assets/lifeStyle.jpg";
+import Form from "../../components/Form";
 const Container = styled.div`
   margin-top: 120px;
 `;
@@ -38,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
   titleHeader: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
 
@@ -84,7 +94,8 @@ export default function Home({}) {
 
   const classes = useStyles();
   const matches = useMediaQuery((theme) => theme.breakpoints.up("md"));
-
+  const [openHealth, setOpenHealth] = useState(false);
+  const handleOnClickAdd = useCallback(() => setOpenHealth(true), []);
   if (matches) {
     return (
       <React.Fragment>
@@ -120,8 +131,33 @@ export default function Home({}) {
           </AppBar>
         </div>
         <Container>
-          <Chart options={options} series={series} type="area" height={350} />
+          <Grid container classes={{ root: classes.root }}>
+            <Grid item xs={12} lg={6}>
+              <Card
+                title="Saúde"
+                imageTitle="saude"
+                image={Health}
+                handleOnClickAdd={handleOnClickAdd}
+                link="/categoria/health"
+              ></Card>
+              <Card
+                title="Bem Estar"
+                imageTitle="Bem Estar"
+                image={LifeStyle}
+                handleOnClickAdd={() => {}}
+                link="/categoria/lifestyle"
+              ></Card>
+              <Card
+                title="Informativos"
+                imageTitle="Informativos"
+                image={Info}
+                handleOnClickAdd={() => {}}
+                link="/categoria/info"
+              ></Card>
+            </Grid>
+          </Grid>
         </Container>
+        {openHealth && <Form></Form>}
       </React.Fragment>
     );
   }
@@ -150,7 +186,31 @@ export default function Home({}) {
         </AppBar>
       </div>
       <Container>
-        <Chart options={options} series={series} type="area" height={350} />
+        <Grid container classes={{ root: classes.root }}>
+          <Grid item xs={12} lg={6}>
+            <Card
+              title="Saúde"
+              imageTitle="saude"
+              image={Health}
+              handleOnClickAdd={() => {}}
+              handleOnClickSee={() => {}}
+            ></Card>
+            <Card
+              title="Bem Estar"
+              imageTitle="Bem Estar"
+              image={LifeStyle}
+              handleOnClickAdd={() => {}}
+              handleOnClickSee={() => {}}
+            ></Card>
+            <Card
+              title="Informativos"
+              imageTitle="Informativos"
+              image={Info}
+              handleOnClickAdd={() => {}}
+              handleOnClickSee={() => {}}
+            ></Card>
+          </Grid>
+        </Grid>
       </Container>
     </React.Fragment>
   );
