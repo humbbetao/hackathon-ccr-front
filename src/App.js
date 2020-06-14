@@ -14,6 +14,7 @@ import Loading from "./components/Loading";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
+const ListEvents = lazy(() => import("./pages/ListEvents"));
 
 export default function App() {
   return (
@@ -30,6 +31,9 @@ export default function App() {
                   </Route>
                   <Route path="/dash">
                     <Home />
+                  </Route>
+                  <Route path="/events/:type">
+                    <ListEvents />
                   </Route>
                   <Route path="/">
                     <Login />

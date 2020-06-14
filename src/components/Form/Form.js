@@ -15,6 +15,96 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { DateTimePicker } from "@material-ui/pickers";
+import Request from "../../config/Request";
+import moment from "moment";
+import "moment/locale/pt-br";
+moment.locale("pt-br");
+
+const localesCCR = [
+  {
+    id: "1",
+    nome: "Pedagio Arujá",
+    valor: "R$ 3,70",
+    latitude: "-23.4060844",
+    longitude: "-46.3910018",
+  },
+  {
+    id: "3",
+    nome: "Pedagio Guararema Norte",
+    valor: "R$ 3,70",
+    latitude: "-23.346588",
+    longitude: "-46.1665044",
+  },
+  {
+    id: "4",
+    nome: "Pedagio Moreira César",
+    valor: "R$ 15,20",
+    latitude: "-22.9269866",
+    longitude: "-45.3678296",
+  },
+  {
+    id: "5",
+    nome: "Pedagio Itatiaia",
+    valor: "R$ 15,20",
+    latitude: "-22.4948551",
+    longitude: "-44.5717627",
+  },
+  {
+    id: "6",
+    nome: "Pedagio Viúva Graça",
+    valor: "R$ 15,20",
+    latitude: "-22.7160414",
+    longitude: "-43.718990",
+  },
+
+  {
+    id: "7",
+    nome: "Posto Odontológico",
+    horarios: {
+      horario: [
+        "segundas e quartas-feiras: das 8h às 18h;",
+        "terças e quintas-feiras: das 7h às 17h; ",
+        "sextas-feiras: das 9h às 17h.",
+      ],
+    },
+    local:
+      "Posto de Serviços Arco-Íris, km 82 da Via Dutra sentido SP-RIO, em Roseira (SP)",
+    latitude: "-22.908784",
+    longitude: "-45.316527",
+  },
+  {
+    id: "8",
+    nome: "Estrada para Saúde",
+    horarios: {
+      horario: [
+        "segundas e quartas-feiras: das 8h às 18h;",
+        "terças e quintas-feiras: das 7h às 17h; ",
+        "sextas-feiras: das 9h às 17h.",
+      ],
+    },
+    local:
+      "Posto de Serviços Arco-Íris, km 82 da Via Dutra sentido SP-RIO, em Roseira (SP)",
+    latitude: "-22.908784",
+    longitude: "-45.316527",
+  },
+
+  {
+    id: "9",
+    nome: "Região dos Lagos",
+    valor:
+      "R$ 12,40 das 12h de segunda-feira às 12h de sexta-feira, exceto feriados nacionais. R$ 20,60 das 12h de 6ª feira às 12h de 2ª feira e feriados nacionais das 12h da véspera às 12h do dia seguinte.",
+    latitude: "-22.8007862",
+    longitude: "-42.4667592",
+  },
+  {
+    id: "10",
+    nome: "Região dos Lagos",
+    valor:
+      "R$ 12,40 das 12h de segunda-feira às 12h de sexta-feira, exceto feriados nacionais. R$ 20,60 das 12h de 6ª feira às 12h de 2ª feira e feriados nacionais das 12h da véspera às 12h do dia seguinte.",
+    latitude: "-22.8007862",
+    longitude: "-42.4667592",
+  },
+];
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -58,51 +148,53 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export default function Form({ open = true, handleOnClose, purchase = {} }) {
+export default function Form({ type, open = true, handleOnClose }) {
   const classes = useStyles();
   const matches = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const actionButtonsInFullWidth = useMemo(() => !matches, [matches]);
-  const [age, setAge] = useState("");
-  const [selectedDate, handleDateChange] = useState(new Date());
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
-  const [code, setCode] = useState(purchase.code || "");
-  const [value, setValue] = useState(purchase.value || "");
-  const hasDate = Boolean(purchase.date);
-  const [date, setDate] = useState(
-    hasDate
-      ? new Date(
-          purchase.date.substring(6, 10),
-          parseInt(purchase.date.substring(3, 5)),
-          purchase.date.substring(0, 2)
-        )
-      : new Date()
-  );
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [ccrPost, setCcrPost] = useState("");
+
   const handleOnSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      const isFormValidated = true;
-      if (!isFormValidated) {
-        console.log("ops deu erro");
-      }
+
+      const base = "http://34.229.190.77:80/events";
+      const element = localesCCR.find((item) => item.id == ccrPost);
+      Request.post(base, {
+        name,
+        description,
+        date: `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${
+          selectedDate.getDate() + 1
+        }`,
+        type_event: type,
+        latitude: element.latitude || "",
+        longitude: element.longitude || "",
+      }).then((response) => {
+        console.log(response);
+      });
 
       handleOnClose();
     },
-    [code, date, value, handleOnClose, purchase.code]
+    [ccrPost, description, handleOnClose, name, selectedDate, type]
   );
 
-  const handleOnChangeCode = useCallback((event) => {
-    const code = event.target.value;
-    setCode(code);
+  const handleOnChangeName = useCallback((event) => {
+    const name = event.target.value;
+    setName(name);
   }, []);
-  const handleOnChangeValue = useCallback((event) => {
-    const value = event.target.value;
-    setValue(value);
+  const handleOnChangeCcr = (event) => {
+    setCcrPost(event.target.value);
+  };
+  const handleOnChangeDescription = useCallback((event) => {
+    const description = event.target.value;
+    setDescription(description);
   }, []);
   const handleOnChangeDate = useCallback((date) => {
-    setDate(date);
+    setSelectedDate(date);
   }, []);
 
   const theme = useTheme();
@@ -131,8 +223,8 @@ export default function Form({ open = true, handleOnClose, purchase = {} }) {
               autoComplete="Nome"
               autoFocus
               type="text"
-              value={code}
-              onChange={handleOnChangeCode}
+              value={name}
+              onChange={handleOnChangeName}
               data-test="code-purchase"
             />
             <TextField
@@ -143,29 +235,34 @@ export default function Form({ open = true, handleOnClose, purchase = {} }) {
               label="Descrição"
               name="Descrição"
               autoComplete="Descrição"
-              autoFocus
               type="text"
-              value={code}
-              onChange={handleOnChangeCode}
+              value={description}
+              onChange={handleOnChangeDescription}
               data-test="code-purchase"
             />
             <DateTimePicker
-              label="DateTimePicker"
-              inputVariant="outlined"
+              locale={"pt-br"}
+              label="Data e Hora"
+              format="dd/MM/yyyy HH:mm"
               value={selectedDate}
-              onChange={handleDateChange}
+              onChange={handleOnChangeDate}
             />
 
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <InputLabel id="demo-simple-select-label">Local</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                onChange={handleChange}
+                value={ccrPost}
+                onChange={handleOnChangeCcr}
               >
-                <MenuItem value={10}>Novo</MenuItem>
-                <MenuItem value={20}>Velho</MenuItem>
+                {localesCCR.map((item) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.nome}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </FormControl>

@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import ApexCharts from "react-apexcharts";
-
+import Request from "../../config/Request";
 export default function Cards() {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    Request.get("http://34.229.190.77:80/event/date").then((response) => {
+      if (response.ok) {
+        console.log(response);
+        setData(response.data);
+      }
+    });
+  }, []);
+
   const series = [
     {
       name: "series1",

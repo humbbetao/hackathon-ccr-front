@@ -23,7 +23,7 @@ export default function MediaCard({
   title,
   imageTitle,
   handleOnClickAdd,
-  handleOnClickSee,
+  link,
 }) {
   const classes = useStyles();
 
@@ -45,7 +45,7 @@ export default function MediaCard({
         <Button size="small" color="primary" onClick={handleOnClickAdd}>
           Cadastrar Novo
         </Button>
-        <Button size="small" color="primary" onClick={handleOnClickSee}>
+        <Button size="small" color="primary" href={link}>
           Veja os eventos
         </Button>
       </CardActions>

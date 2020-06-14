@@ -19,8 +19,9 @@ const useStyles = makeStyles({
 
 export default function Cards() {
   const classes = useStyles();
-  const [openHealth, setOpenHealth] = useState(false);
-  const handleOnClickAdd = useCallback(() => setOpenHealth(true), []);
+  const [open, setOpen] = useState(null);
+  const handleOnClickAdd = useCallback((type) => () => setOpen(type), []);
+  const handleOnClose = useCallback(() => setOpen(null), []);
 
   return (
     <React.Fragment>
@@ -29,25 +30,26 @@ export default function Cards() {
           title="Saúde"
           imageTitle="saude"
           image={Health}
-          handleOnClickAdd={handleOnClickAdd}
-          link="/categoria/health"
+          handleOnClickAdd={handleOnClickAdd("eventos-saude")}
+          link="/events/health"
         ></Card>
         <Card
           title="Bem Estar"
           imageTitle="Bem Estar"
           image={LifeStyle}
-          handleOnClickAdd={() => {}}
-          link="/categoria/lifestyle"
+          handleOnClickAdd={handleOnClickAdd("eventos-bem-estar")}
+          link="/events/lifestyle"
         ></Card>
         <Card
           title="Informativos"
           imageTitle="Informativos"
           image={Info}
-          handleOnClickAdd={() => {}}
-          link="/categoria/info"
+          handleOnClickAdd={handleOnClickAdd("eventos-informativo")}
+          link="/events/info"
         ></Card>
       </Grid>
-      {openHealth && <Form></Form>}
+
+      {open && <Form handleOnClose={handleOnClose} type={open}></Form>}
     </React.Fragment>
   );
 }
