@@ -4,10 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
-// import CPFMaskCustom from '../../components/CPFMask'
 import PasswordTextInput from "../../components/PasswordTextInput";
 import LoginContainer from "../../components/LoginContainer";
-// import ValidatorCPF from 'cpf'
 import validatorEmail from "../../helpers/validatorEmail";
 import UserCreated from "../../components/UserCreated";
 import UserAlreadyCreated from "../../components/UserAlreadyCreated";
