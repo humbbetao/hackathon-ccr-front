@@ -6,16 +6,24 @@ import Health from "../../assets/health.jpg";
 import Info from "../../assets/Info.jpg";
 import LifeStyle from "../../assets/lifeStyle.jpg";
 import Form from "../Form";
+import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "100px",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
   },
-});
+  name: {
+    color: "#000",
+    marginleft: "24px",
+  },
+  container: { marginTop: "100px", padding: "0 24px" },
+}));
 
 export default function Cards() {
   const classes = useStyles();
@@ -24,7 +32,10 @@ export default function Cards() {
   const handleOnClose = useCallback(() => setOpen(null), []);
 
   return (
-    <React.Fragment>
+    <Grid container classes={{ root: classes.container }}>
+      <Typography variant="h6" classes={{ root: classes.name }}>
+        Eventos
+      </Typography>
       <Grid container classes={{ root: classes.root }}>
         <Card
           title="Saúde"
@@ -50,6 +61,6 @@ export default function Cards() {
       </Grid>
 
       {open && <Form handleOnClose={handleOnClose} type={open}></Form>}
-    </React.Fragment>
+    </Grid>
   );
 }

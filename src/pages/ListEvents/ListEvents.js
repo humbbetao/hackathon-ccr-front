@@ -40,56 +40,50 @@ const useStyles = makeStyles((theme) => ({
 export default function ListEvents() {
   let { type } = useParams();
   const classes = useStyles();
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
+
   useEffect(() => {
-    Request.get("http://34.229.190.77:80/events").then((response) => {
+    Request.get(`http://34.229.190.77:80/event/${type}`).then((response) => {
       if (response.ok) {
-        console.log(response);
         setData(response.data);
       }
     });
   }, []);
-  console.log(data);
+
   const getImage = () => {
     if (type === "health") return Health;
     if (type === "lifestyle") return LifeStyle;
     if (type === "info") return Info;
+  };
+
+  const getText = () => {
+    if (type === "health") return "Saúde";
+    if (type === "lifestyle") return "Bem estar";
+    if (type === "info") return "Informativos";
   };
   return (
     <React.Fragment>
       <Header></Header>
       <Grid container classes={{ root: classes.card }}>
         <Card
-          title="Saúde"
-          imageTitle="saude"
+          title={getText()}
+          imageTitle={getText()}
           image={getImage()}
           link={`/events/${type}`}
         ></Card>
         <List className={classes.root}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <ImageIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <WorkIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Work" secondary="Jan 7, 2014" />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <BeachAccessIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Vacation" secondary="July 20, 2014" />
-          </ListItem>
+          {data.map((item) => {
+            return (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ImageIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={item.name} secondary={item.date} />
+              </ListItem>
+            );
+          })}
         </List>
       </Grid>
     </React.Fragment>

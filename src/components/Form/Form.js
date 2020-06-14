@@ -161,15 +161,13 @@ export default function Form({ type, open = true, handleOnClose }) {
   const handleOnSubmit = useCallback(
     (event) => {
       event.preventDefault();
-
-      const base = "http://34.229.190.77:80/events";
       const element = localesCCR.find((item) => item.id == ccrPost);
-      Request.post(base, {
+      Request.post("http://34.229.190.77:80/event", {
         name,
-        description,
-        date: `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${
-          selectedDate.getDate() + 1
-        }`,
+        descripton: description,
+        date: `${selectedDate.getDate() + 1}/${
+          selectedDate.getMonth() + 1
+        }/${selectedDate.getFullYear()}`,
         type_event: type,
         latitude: element.latitude || "",
         longitude: element.longitude || "",

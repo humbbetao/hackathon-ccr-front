@@ -12,26 +12,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item() {
+export default function Item({ item = {} }) {
   const classes = useStyles();
+
+  const getFunction = () => {
+    if (item.type_occurrence === "acidente")
+      return { type: "Acidente", color: "#e33371" };
+    if (item.type_occurrence === "problema-de-saude")
+      return { type: "Problema de Sáude", color: "#ff9800" };
+    if (item.type_occurrence === "crime")
+      return { type: "Crime", color: "#2196f3" };
+  };
+
+  const types = getFunction() || {};
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+        <Avatar
+          alt={types.type && types.type[0]}
+          src="/static/images/avatar/2.jpg"
+          style={{ backgroundColor: types.color }}
+        />
       </ListItemAvatar>
       <ListItemText
-        primary="Summer BBQ"
+        primary={item.whatsapp}
         secondary={
           <React.Fragment>
             <Typography
               component="span"
               variant="body2"
               className={classes.inline}
-              color="textPrimary"
+              style={{ color: "#000" }}
             >
-              to Scott, Alex, Jennifer
+              {types.type}
             </Typography>
-            {" — Wish I could come, but I'm out of town this…"}
+            {` - ${item.whatsapp}`}
           </React.Fragment>
         }
       />
