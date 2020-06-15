@@ -161,7 +161,7 @@ export default function Form({ type, open = true, handleOnClose }) {
   const handleOnSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      const element = localesCCR.find((item) => item.id == ccrPost);
+      const element = localesCCR.find((item) => item.id === ccrPost);
       Request.post("http://34.229.190.77:80/event", {
         name,
         descripton: description,

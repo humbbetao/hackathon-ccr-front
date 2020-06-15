@@ -7,9 +7,7 @@ import Link from "@material-ui/core/Link";
 import PasswordTextInput from "../../components/PasswordTextInput";
 import LoginContainer from "../../components/LoginContainer";
 import validatorEmail from "../../helpers/validatorEmail";
-import UserCreated from "../../components/UserCreated";
 import UserAlreadyCreated from "../../components/UserAlreadyCreated";
-import STORAGE_KEYS from "../../constants/storage";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -23,13 +21,11 @@ export default function Register() {
   const classes = useStyles();
 
   const [name, setName] = useState("");
-  const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [userAlreadyCreated, setOpenUserAlreadyCreated] = useState(false);
-  const [userCreated, setOpenCreated] = useState(false);
 
   const handleOnChangeEmail = useCallback((event) => {
     const email = event.target.value;
@@ -44,11 +40,6 @@ export default function Register() {
   const handleOnChangeName = useCallback((event) => {
     const name = event.target.value;
     setName(name);
-  }, []);
-
-  const handleOnChangeCpf = useCallback((event) => {
-    const cpf = event.target.value;
-    setCpf(cpf);
   }, []);
 
   const handleOnChangeConfirmPassword = useCallback((event) => {
@@ -88,14 +79,14 @@ export default function Register() {
     const isFormValidated = validateForm();
     if (!isFormValidated) return;
 
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || "[]");
-    if (users.some((user) => user.cpf === cpf || user.cpf === email)) {
-      setOpenUserAlreadyCreated(true);
-    } else {
-      users.push({ name, cpf, email, password });
-      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
-      setOpenCreated(true);
-    }
+    // const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || "[]");
+    // if (users.some((user) => user.cpf === cpf || user.cpf === email)) {
+    //   setOpenUserAlreadyCreated(true);
+    // } else {
+    //   users.push({ name, cpf, email, password });
+    //   localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+    //   setOpenCreated(true);
+    // }
   };
 
   const handleOnCloseUserAlreadyCreated = useCallback(
@@ -187,7 +178,6 @@ export default function Register() {
           Já é cadastrado?
         </Link>
       </Grid>
-      {userCreated && <UserCreated />}
       {userAlreadyCreated && (
         <UserAlreadyCreated handleClose={handleOnCloseUserAlreadyCreated} />
       )}

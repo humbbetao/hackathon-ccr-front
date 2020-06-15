@@ -47,7 +47,7 @@ export default function MediaCard({
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary" onClick={handleOnClickAdd}>
-          Cadastrar Novo
+          Adicionar
         </Button>
         <Button size="small" color="primary" href={link}>
           Veja os eventos

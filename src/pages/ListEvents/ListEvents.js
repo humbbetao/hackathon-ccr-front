@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
-import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,22 +7,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
-import WorkIcon from "@material-ui/icons/Work";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import Grid from "@material-ui/core/Grid";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "../../components/Card";
 import Health from "../../assets/health.jpg";
 import Info from "../../assets/Info.jpg";
 import LifeStyle from "../../assets/lifeStyle.jpg";
-// import Form from "../Form";
 import Request from "../../config/Request";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,23 +32,25 @@ export default function ListEvents() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    Request.get(`http://34.229.190.77:80/event/${type}`).then((response) => {
-      if (response.ok) {
-        setData(response.data);
+    Request.get(`http://34.229.190.77:80/event/type/${type}`).then(
+      (response) => {
+        if (response.ok) {
+          setData(response.data);
+        }
       }
-    });
-  }, []);
+    );
+  }, [type]);
 
   const getImage = () => {
-    if (type === "health") return Health;
-    if (type === "lifestyle") return LifeStyle;
-    if (type === "info") return Info;
+    if (type === "eventos-saude") return Health;
+    if (type === "eventos-bem-estar") return LifeStyle;
+    if (type === "eventos-informativo") return Info;
   };
 
   const getText = () => {
-    if (type === "health") return "Saúde";
-    if (type === "lifestyle") return "Bem estar";
-    if (type === "info") return "Informativos";
+    if (type === "eventos-saude") return "Saúde";
+    if (type === "eventos-bem-estar") return "Bem estar";
+    if (type === "eventos-informativo") return "Informativos";
   };
   return (
     <React.Fragment>

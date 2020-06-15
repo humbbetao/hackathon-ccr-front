@@ -42,21 +42,21 @@ export default function Cards() {
           imageTitle="saude"
           image={Health}
           handleOnClickAdd={handleOnClickAdd("eventos-saude")}
-          link="/events/health"
+          link="/events/eventos-saude"
         ></Card>
         <Card
           title="Bem Estar"
           imageTitle="Bem Estar"
           image={LifeStyle}
           handleOnClickAdd={handleOnClickAdd("eventos-bem-estar")}
-          link="/events/lifestyle"
+          link="/events/eventos-bem-estar"
         ></Card>
         <Card
           title="Informativos"
           imageTitle="Informativos"
           image={Info}
           handleOnClickAdd={handleOnClickAdd("eventos-informativo")}
-          link="/events/info"
+          link="/events/eventos-informativo"
         ></Card>
       </Grid>
 
