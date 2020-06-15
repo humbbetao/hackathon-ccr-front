@@ -11,6 +11,7 @@ import "./components/ServiceWorkerWrapper";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
 import Loading from "./components/Loading";
+import "./components/ServiceWorkerWrapper";
 const Home = lazy(() => import("./pages/Home"));
 const ListEvents = lazy(() => import("./pages/ListEvents"));
 
