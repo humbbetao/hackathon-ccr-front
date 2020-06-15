@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
 import Grid from "@material-ui/core/Grid";
 import { useParams } from "react-router-dom";
 import Card from "../../components/Card";
@@ -14,15 +13,24 @@ import Health from "../../assets/health.jpg";
 import Info from "../../assets/Info.jpg";
 import LifeStyle from "../../assets/lifeStyle.jpg";
 import Request from "../../config/Request";
+import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   card: {
     marginTop: "100px",
+    padding: "0 24px",
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+  },
+  secondCard: {
+    padding: "0 24px",
   },
 }));
 
@@ -52,6 +60,8 @@ export default function ListEvents() {
     if (type === "eventos-bem-estar") return "Bem estar";
     if (type === "eventos-informativo") return "Informativos";
   };
+  const matches = useMediaQuery((theme) => theme.breakpoints.up("md"));
+
   return (
     <React.Fragment>
       <Header></Header>
@@ -62,20 +72,43 @@ export default function ListEvents() {
           image={getImage()}
           link={`/events/${type}`}
         ></Card>
-        <List className={classes.root}>
-          {data.map((item) => {
-            return (
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <ImageIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={item.name} secondary={item.date} />
-              </ListItem>
-            );
-          })}
-        </List>
+        <Grid item xs={matches ? 6 : 12} classes={{ root: classes.secondCard }}>
+          <Typography variant="h6" classes={{ root: classes.name }}>
+            Performance
+          </Typography>
+          <List className={classes.root}>
+            {data.map((item) => {
+              const currentDate = new Date(item.date);
+
+              return (
+                <ListItem
+                  component="a"
+                  href={`https://www.google.com/maps?q=${item.latitude},${item.longitude}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar>{item.name && item.name[0]}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.name}
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {`${currentDate.getDate()}/${currentDate.getMonth()}/${currentDate.getFullYear()}`}
+                        </Typography>
+                        {` - ${item.descripton}`}
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+              );
+            })}
+          </List>
+        </Grid>
       </Grid>
     </React.Fragment>
   );

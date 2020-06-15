@@ -10,10 +10,10 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "80%",
+    width: "calc(100% - 24px)",
     margin: "12px",
     [theme.breakpoints.up("sm")]: {
-      width: "30%",
+      width: "calc(30% - 24px)",
     },
   },
   media: {
