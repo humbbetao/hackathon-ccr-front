@@ -12,8 +12,6 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
 import Loading from "./components/Loading";
 const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
 const ListEvents = lazy(() => import("./pages/ListEvents"));
 
 export default function App() {
@@ -26,17 +24,11 @@ export default function App() {
               <GlobalStyle />
               <Router>
                 <Switch>
-                  <Route path="/register">
-                    <Register />
-                  </Route>
-                  <Route path="/dash">
-                    <Home />
-                  </Route>
                   <Route path="/events/:type">
                     <ListEvents />
                   </Route>
                   <Route path="/">
-                    <Login />
+                    <Home />
                   </Route>
                 </Switch>
               </Router>
